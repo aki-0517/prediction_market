@@ -1,0 +1,14 @@
+{
+  "name": "predict-market",
+  "version": "1.0.0",
+  "description": "Predict Market",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "contract": "yarn workspace contract",
+    "client": "yarn workspace client",
+    "test": "yarn workspace contract test"
+  }
+}
