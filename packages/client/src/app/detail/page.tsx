@@ -4,12 +4,19 @@ import { CardProps } from "@/components/Card";
 import { Footer } from "@/components/Footer";
 import { SliderComp } from "@/components/Slider";
 import Link from "next/link";
+import { useState } from "react";
+import { FaRegCheckSquare, FaRegSquare } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 
 export default function Detail() {
   const markets: CardProps = {
     imageUrl: "https://source.unsplash.com/random/800x600",
     description: "This is a description of market 1",
+  };
+
+  const [selectedOption, setSelectedOption] = useState("");
+  const handleSelectOption = (option: string) => {
+    setSelectedOption(option);
   };
 
   return (
@@ -39,20 +46,34 @@ export default function Detail() {
             alt="card image"
           />
         </div>
-        <div className="mt-10 flex gap-4">
-          <button className="w-full justify-center py-6 px-4 border border-transparent rounded-md shadow-sm text-white text-3xl font-medium bg-green-600 hover:bg-green-500">
-            {"Yes"}
-            <p className="text-base mt-2">{"8.00"}</p>
+        <div className="mt-10 flex flex-col gap-4">
+          <button
+            className={`w-full flex items-center gap-4 py-3 px-10 border border-transparent rounded-md shadow-sm text-3xl font-medium ${
+              selectedOption === "yes"
+                ? "bg-green-600 hover:bg-green-500"
+                : "bg-green-200 hover:bg-green-100"
+            }`}
+            onClick={() => handleSelectOption("yes")}
+          >
+            {selectedOption === "yes" ? <FaRegCheckSquare /> : <FaRegSquare />}
+            <p>{"Yes"}</p>
           </button>
-          <button className="w-full justify-center py-6 px-4 border border-transparent rounded-md shadow-sm text-white text-3xl font-medium bg-green-600 hover:bg-green-500">
-            {"No"}
-            <p className="text-base mt-2">{"8.00"}</p>
+          <button
+            className={`w-full flex items-center gap-4 py-3 px-10 border border-transparent rounded-md shadow-sm text-3xl font-medium ${
+              selectedOption === "no"
+                ? "bg-green-600 hover:bg-green-500"
+                : "bg-green-200 hover:bg-green-100"
+            }`}
+            onClick={() => handleSelectOption("no")}
+          >
+            {selectedOption === "no" ? <FaRegCheckSquare /> : <FaRegSquare />}
+            <p>{"No"}</p>
           </button>
         </div>
-        <div className="mt-20">
+        {/* <div className="mt-20">
             <p className="mb-2">Voting Amount</p>
         <SliderComp />
-        </div>
+        </div> */}
         <div className="mt-10">
           <button className="w-full flex justify-center py-4 px-4 border border-transparent rounded-md shadow-sm text-xl font-medium bg-green-400 hover:bg-green-300">
             {"Vote"}
