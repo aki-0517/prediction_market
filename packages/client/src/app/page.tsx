@@ -72,7 +72,7 @@ export default function Detail() {
   // 数値への変換を行うためのハンドラー関数
   const handleBetAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    setBetAmount(value ? parseFloat(value) : 0); // 空文字の場合は0をセット
+    setBetAmount(parseFloat(value)); // 空文字の場合は0をセット
   };
 
   useEffect(() => {
@@ -110,7 +110,7 @@ export default function Detail() {
               <input
                 type="number"
                 id="betAmount"
-                value={betAmount.toString()}
+                value={betAmount}
                 onChange={handleBetAmountChange}
                 className="mt-1 py-3 px-4 shadow-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 block w-full sm:text-lg border-2 border-gray-300 rounded-lg text-black placeholder-gray-400"
                 placeholder="0.00"
