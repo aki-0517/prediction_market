@@ -11,3 +11,17 @@ REPORT_GAS=true npx hardhat test
 npx hardhat node
 npx hardhat run scripts/deploy.ts
 ```
+
+## 動かし方
+
+- ローカルでのシミュレーション
+
+  ```bash
+  npx hardhat functions-simulate
+  ```
+
+- コントラクトのデプロイ
+
+  ```bash
+  npx hardhat deploy-game --subid 2030 --verify true --network ethereumSepolia
+  ```
