@@ -54,14 +54,14 @@ export default function Detail() {
    * predict ボタンを押した時の処理
    */
   const execute_predict = () => {
-    setShowPopup(true); // ポップアップを表示
+    // setShowPopup(true); // ポップアップを表示
     if (isSuccess) {
       setPopupMessage('Predict successful!');
       setTimeout(() => {
         router.push('/result');  // 成功時は指定のページに遷移
       }, 3000); // ポップアップを表示した後、少し遅延してから遷移
     } else {
-      setPopupMessage('Predict failed. Try again.');
+      // setPopupMessage('Predict failed. Try again.');
     }
   };
 
