@@ -86,7 +86,7 @@ const networks = {
     nativeCurrencySymbol: "ETH",
     linkToken: "0xb1D4538B4571d411F07960EF2838Ce337FE1E80E",
     linkPriceFeed: "0x3ec8593F930EA45ea58c968260e6e9FF53FC934f", // LINK/ETH
-    functionsRouter: "0x65Dcc24F8ff9e51F10DCc7Ed1e4e2A61e6E14bd6",
+    functionsRouter: "0x234a5fb5Bd614a7AA2FfAB244D603abFA0Ac5C5C",
     functionsDonId: "fun-arbitrum-sepolia-1",
     ccipRouter: "0x2a9C5afB0d0e4BAb2BCdaE109EC4b0c4Be15a165",
     ccipChainSelector: "3478487238524512106",
