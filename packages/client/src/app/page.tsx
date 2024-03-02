@@ -8,7 +8,7 @@ import { FaRegCheckSquare, FaRegSquare } from "react-icons/fa";
 import { useAccount, useBalance, useContractRead, useContractWrite } from "wagmi";
 import { PREDICT_CONTRACT_ADDRESS } from "@/utils/constants";
 import predictContractJson from "@/app/contracts/PredictionMarket.sol/PredictionMarket.json"
-import { isError, parseEther } from "ethers";
+import { parseEther } from "ethers";
 
 export default function Detail() {
   const [selectedOption, setSelectedOption] = useState("");
@@ -38,15 +38,17 @@ export default function Detail() {
     isSuccess,
     isError,
     isLoading,
+    status,
     write,
+    writeAsync
   } = useContractWrite({
     address: PREDICT_CONTRACT_ADDRESS,
     abi: predictContractJson.abi,
     functionName: 'registerAndPredict',
     args: [
       BigInt(4),
-      BigInt(42142),
-      BigInt(1709408100),
+      BigInt(42143),
+      BigInt(1711136100),
       1, // win
     ],
     value: parseEther(`${betAmount}`),
@@ -55,24 +57,12 @@ export default function Detail() {
   /**
    * predict ボタンを押した時の処理
    */
-  const execute_predict = () => {
+  const execute_predict = async() => {
     setShowPopup(true);
-    write();
-
-    if(isLoading) {
-      setPopupMessage('Please wait...');
-    }
-
-    if (isSuccess) {
-      setPopupMessage('Predict successful!');
-      setTimeout(() => {
-        router.push('/result');  // 成功時は指定のページに遷移
-      }, 3000); // ポップアップを表示した後、少し遅延してから遷移
-    } 
-    
-    if (isError){
-      setPopupMessage('Predict failed. Try again.');
-    }
+    console.log("status:", status)
+    // write();
+    await writeAsync();
+    console.log("status:", status)
   };
 
   const handleSelectOption = (option: string) => {
@@ -96,6 +86,25 @@ export default function Detail() {
       }
     }
   }, [games])
+
+  useEffect(() => {
+    if (isLoading) setPopupMessage('Please wait...');
+  }, [isLoading])
+
+  useEffect(() => {
+    if (isSuccess) {
+      setPopupMessage('Predict successful!');
+      setTimeout(() => {
+        router.push('/result');  // 成功時は指定のページに遷移
+      }, 3000); // ポップアップを表示した後、少し遅延してから遷移
+    }
+  }, [isSuccess])
+
+  useEffect(() => {
+    if (isError) {
+      setPopupMessage('Predict failed. Try again.');
+    }
+  }, [isError])
 
   return (
     <div className="font-sans min-h-screen" style={{ background: 'linear-gradient(to right, #6a11cb 33%, #2575fc 66%)', opacity: 0.8 }}>
@@ -132,6 +141,7 @@ export default function Detail() {
             <div className="text-center">
               <div className="text-sm font-medium">Your Balance:</div>
               <div className="text-sm font-medium">{balance.data?.formatted} ETH</div>
+              
             </div>
           </div>
         </div>
@@ -161,9 +171,7 @@ export default function Detail() {
         </div>
         <button 
           className="w-full flex justify-center py-2 px-4 mt-4 border border-transparent rounded-lg shadow-md text-base font-medium bg-blue-700 hover:bg-blue-800"
-          onClick={() => {
-            execute_predict();
-          }}
+          onClick={async() => await execute_predict()}
         >
           Predict
         </button>
