@@ -8,7 +8,7 @@ import { FaRegCheckSquare, FaRegSquare } from "react-icons/fa";
 import { useAccount, useBalance, useContractRead, useContractWrite } from "wagmi";
 import { PREDICT_CONTRACT_ADDRESS } from "@/utils/constants";
 import predictContractJson from "@/app/contracts/PredictionMarket.sol/PredictionMarket.json"
-import { parseEther } from "ethers";
+import { isError, parseEther } from "ethers";
 
 export default function Detail() {
   const [selectedOption, setSelectedOption] = useState("");
@@ -36,6 +36,8 @@ export default function Detail() {
   const {
     data: result,
     isSuccess,
+    isError,
+    isLoading,
     write,
   } = useContractWrite({
     address: PREDICT_CONTRACT_ADDRESS,
@@ -43,8 +45,8 @@ export default function Detail() {
     functionName: 'registerAndPredict',
     args: [
       BigInt(4),
-      BigInt(42137),
-      BigInt(1709384400),
+      BigInt(42138),
+      BigInt(1709391600),
       1, // win
     ],
     value: parseEther(`${betAmount}`),
@@ -54,14 +56,22 @@ export default function Detail() {
    * predict ボタンを押した時の処理
    */
   const execute_predict = () => {
-    // setShowPopup(true); // ポップアップを表示
+    setShowPopup(true);
+    write();
+
+    if(isLoading) {
+      setPopupMessage('Please wait...');
+    }
+
     if (isSuccess) {
       setPopupMessage('Predict successful!');
       setTimeout(() => {
         router.push('/result');  // 成功時は指定のページに遷移
       }, 3000); // ポップアップを表示した後、少し遅延してから遷移
-    } else {
-      // setPopupMessage('Predict failed. Try again.');
+    } 
+    
+    if (isError){
+      setPopupMessage('Predict failed. Try again.');
     }
   };
 
@@ -152,7 +162,6 @@ export default function Detail() {
         <button 
           className="w-full flex justify-center py-2 px-4 mt-4 border border-transparent rounded-lg shadow-md text-base font-medium bg-blue-700 hover:bg-blue-800"
           onClick={() => {
-            write();
             execute_predict();
           }}
         >
