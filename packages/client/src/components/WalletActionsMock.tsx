@@ -19,8 +19,6 @@ export const WalletActionsMock = () => {
               largeScreen: "full",
             }}
           />
-          <SendEthToVitalikButton />
-          <ExecuteContractButton />
         </div>
       ) : (
         <ConnectButton />
